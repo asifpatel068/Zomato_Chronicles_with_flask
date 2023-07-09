@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zesty Zomato Menu</title>
+</head>
+<body>
+    <h1>Zesty Zomato Menu</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Availability</th>
+            <th>Actions</th>
+        </tr>
+        {% for dish in dishes %}
+        <tr>
+            <td>{{ dish['id'] }}</td>
+            <td>{{ dish['name'] }}</td>
+            <td>{{ dish['price'] }}</td>
+            <td>{{ 'Available' if dish['availability'] else 'Not Available' }}</td>
+            <td>
+                <form action="{{ url_for('remove_dish', dish_id=dish['id']) }}" method="POST">
+                    <button type="submit">Remove</button>
+                </form>
+                <form action="{{ url_for('update_availability', dish_id=dish['id'], availability='available') }}" method="POST">
+                    <button type="submit" {% if dish['availability'] %}disabled{% endif %}>Make Available</button>
+                </form>
+                <form action="{{ url_for('update_availability', dish_id=dish['id'], availability='unavailable') }}" method="POST">
+                    <button type="submit" {% if not dish['availability'] %}disabled{% endif %}>Make Unavailable</button>
+                </form>
+                <form action="{{ url_for('take_order') }}" method="POST">
+                    <input type="hidden" name="customer_name" value="">
+                    <input type="hidden" name="dish_ids" value="{{ dish['id'] }}">
+                    <button type="submit">Add to Order</button>
+                </form>
+
+                <form action="{{ url_for('view_order', order_id=dish['id']) }}" method="GET">
+                    <button type="submit">View Order</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        
+        
+    </table>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Dish</title>
+</head>
+<body>
+    <h1>Add Dish</h1>
+    <form action="{{ url_for('add_dish') }}" method="POST">
+        <label for="dish_id">Dish ID:</label>
+        <input type="number" name="dish_id" required><br><br>
+        <label for="dish_name">Dish Name:</label>
+        <input type="text" name="dish_name" required><br><br>
+        <label for="dish_price">Dish Price:</label>
+        <input type="number" name="dish_price" step="0.01" required><br><br>
+        <label for="availability">Availability:</label>
+        <input type="checkbox" name="availability"><br><br>
+        <input type="submit" value="Add Dish">
+    </form>
+</body>
+</html>

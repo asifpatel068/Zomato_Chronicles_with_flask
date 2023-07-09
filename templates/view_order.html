@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Details</title>
+</head>
+<body>
+    {% if order_details %}
+    <h1>Order Details</h1>
+    <p>Order ID: {{ order_details['order_id'] }}</p>
+    <p>Customer Name: {{ order_details['customer_name'] }}</p>
+    <p>Status: {{ order_details['status'] }}</p>
+    <h2>Dishes:</h2>
+    <ul>
+        {% for dish in order_details['dishes'] %}
+            <li>{{ dish['name'] }} - ${{ dish['price'] }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Invalid order ID.</p>
+{% endif %}
+
+    {% endif %}
+    <h2>Update Status:</h2>
+    <form action="{{ url_for('update_status', order_id=order['order_id'], status='preparing') }}" method="POST">
+        <button type="submit" {% if order['status'] != 'received' %}disabled{% endif %}>Start Preparing</button>
+    </form>
+    <form action="{{ url_for('update_status', order_id=order['order_id'], status='ready') }}" method="POST">
+        <button type="submit" {% if order['status'] != 'preparing' %}disabled{% endif %}>Ready for Pickup</button>
+    </form>
+    <form action="{{ url_for('update_status', order_id=order['order_id'], status='delivered') }}" method="POST">
+        <button type="submit" {% if order['status'] != 'ready' %}disabled{% endif %}>Mark Delivered</button>
+    </form>
+
+</body>
+</html>
